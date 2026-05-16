@@ -125,12 +125,12 @@ with app.app_context():
 # --- GLOBAL JWT PROTECTION ---
 PUBLIC_ROUTES = [
     "/",
-    "/auth/signup",
-    "/auth/login",
-    "/auth/logout",
-    "/auth/forgot-password",
-    "/auth/verify-otp",
-    "/auth/reset-password",
+    "/api/auth/signup",
+    "/api/auth/login",
+    "/api/auth/logout",
+    "/api/auth/forgot-password",
+    "/api/auth/verify-otp",
+    "/api/auth/reset-password",
     "/health",
     "/master_table/list",
     "/master-dashboard-stats",
@@ -185,7 +185,7 @@ def protect_all_routes():
 # --- Register Blueprints ---
 # As requested, we follow the working file's lead: no manual '/api' addition here 
 # if Nginx handles it.
-app.register_blueprint(auth_bp, url_prefix="/auth")
+app.register_blueprint(auth_bp, url_prefix="/api/auth")
 app.register_blueprint(scraper_bp, url_prefix="/api")
 app.register_blueprint(amazon_api_bp, url_prefix="/api")
 app.register_blueprint(googlemap_bp, url_prefix='/api')

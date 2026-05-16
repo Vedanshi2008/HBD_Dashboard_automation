@@ -15,6 +15,7 @@ function App() {
       } />
       <Route path="/auth/sign-in" element={<SignIn />} />
       <Route path="/auth/sign-up" element={<SignUp />} />
+      <Route path="/" element={<Navigate to="/dashboard/home" replace />} />
       <Route path="*" element={<Navigate to="/dashboard/home" replace />} />
     </Routes>
   );
