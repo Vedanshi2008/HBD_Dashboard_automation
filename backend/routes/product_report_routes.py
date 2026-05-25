@@ -112,16 +112,16 @@ def get_report_summary():
                 }), 200
 
             data = {
-                "total_categories": row["total_categories"] or 0,
-                "total_products": row["total_products"] or 0,
-                "mapped_products": row["mapped_products"] or 0,
-                "unmapped_products": row["unmapped_products"] or 0,
-                "completed_categories": row["completed_categories"] or 0,
-                "pending_categories": row["pending_categories"] or 0,
-                "available_products": row["available_products"] or 0,
-                "out_of_stock_products": row["out_of_stock_products"] or 0,
-                "total_brands": row["total_brands"] or 0,
-                "avg_selling_price": float(row["avg_selling_price"]) if row["avg_selling_price"] else 0.0,
+                "total_categories": int(row["total_categories"]) if row["total_categories"] is not None else 0,
+                "total_products": int(row["total_products"]) if row["total_products"] is not None else 0,
+                "mapped_products": int(row["mapped_products"]) if row["mapped_products"] is not None else 0,
+                "unmapped_products": int(row["unmapped_products"]) if row["unmapped_products"] is not None else 0,
+                "completed_categories": int(row["completed_categories"]) if row["completed_categories"] is not None else 0,
+                "pending_categories": int(row["pending_categories"]) if row["pending_categories"] is not None else 0,
+                "available_products": int(row["available_products"]) if row["available_products"] is not None else 0,
+                "out_of_stock_products": int(row["out_of_stock_products"]) if row["out_of_stock_products"] is not None else 0,
+                "total_brands": int(row["total_brands"]) if row["total_brands"] is not None else 0,
+                "avg_selling_price": float(row["avg_selling_price"]) if row["avg_selling_price"] is not None else 0.0,
                 "status_badge": "Active"
             }
 
@@ -179,9 +179,9 @@ def get_category_counts():
                 }), 200
 
             data = {
-                "completed_categories": row["completed_categories"] or 0,
-                "pending_categories": row["pending_categories"] or 0,
-                "total_categories": row["total_categories"] or 0
+                "completed_categories": int(row["completed_categories"]) if row["completed_categories"] is not None else 0,
+                "pending_categories": int(row["pending_categories"]) if row["pending_categories"] is not None else 0,
+                "total_categories": int(row["total_categories"]) if row["total_categories"] is not None else 0
             }
 
         return jsonify({"status": "success", "data": data}), 200
@@ -252,26 +252,26 @@ def get_top_products():
             data = []
             for r in rows:
                 data.append({
-                    "product_id":          r["product_id"],
+                    "product_id":          int(r["product_id"]) if r["product_id"] is not None else None,
                     "asin":                r["asin"] or "",
                     "marketplace_name":    r["marketplace_name"] or "",
                     "product_name":        r["product_name"] or "",
                     "brand":               r["brand"] or "",
                     "category_name":       r["category_name"] or "",
                     "sub_category_name":   r["sub_category_name"] or "",
-                    "price":               float(r["price"]) if r["price"] else None,
-                    "list_price":          float(r["list_price"]) if r["list_price"] else None,
+                    "price":               float(r["price"]) if r["price"] is not None else None,
+                    "list_price":          float(r["list_price"]) if r["list_price"] is not None else None,
                     "discount":            r["discount"] or "",
-                    "stars":               float(r["stars"]) if r["stars"] else None,
-                    "reviews":             r["reviews"] or 0,
-                    "rating_count":        r["rating_count"] or 0,
+                    "stars":               float(r["stars"]) if r["stars"] is not None else None,
+                    "reviews":             int(r["reviews"]) if r["reviews"] is not None else 0,
+                    "rating_count":        int(r["rating_count"]) if r["rating_count"] is not None else 0,
                     "is_prime":            bool(r["is_prime"]),
                     "is_best_seller":      bool(r["is_best_seller"]),
-                    "bought_in_last_month":r["bought_in_last_month"] or 0,
+                    "bought_in_last_month":int(r["bought_in_last_month"]) if r["bought_in_last_month"] is not None else 0,
                     "availability":        r["availability"] or "",
                     "img_url":             r["img_url"] or "",
                     "product_url":         r["product_url"] or "",
-                    "ranking_score":       float(r["ranking_score"]) if r["ranking_score"] else 0,
+                    "ranking_score":       float(r["ranking_score"]) if r["ranking_score"] is not None else 0.0,
                     "last_refreshed_at":   str(r["last_refreshed_at"]) if r["last_refreshed_at"] else "",
                 })
 
@@ -323,12 +323,12 @@ def get_mapped_categories():
             data = []
             for r in rows:
                 data.append({
-                    "id": r["id"],
+                    "id": int(r["id"]),
                     "marketplace_name": r["marketplace_name"] or "",
                     "category_name": r["category_name"] or "",
                     "subcategory_name": r["subcategory_name"] or "",
                     "child_category_name": r["child_category_name"] or "",
-                    "category_level": r["category_level"] or 1,
+                    "category_level": int(r["category_level"]) if r["category_level"] is not None else 1,
                     "category_path": r["category_path"] or ""
                 })
                 
@@ -377,13 +377,13 @@ def get_unmapped_categories():
             data = []
             for r in rows:
                 data.append({
-                    "id": r["id"],
-                    "category_id": r["category_id"],
+                    "id": int(r["id"]),
+                    "category_id": int(r["category_id"]) if r["category_id"] is not None else None,
                     "marketplace_name": r["marketplace_name"] or "",
                     "category_name": r["category_name"] or "",
                     "subcategory_name": r["subcategory_name"] or "",
                     "child_category_name": r["child_category_name"] or "",
-                    "category_level": r["category_level"] or 1,
+                    "category_level": int(r["category_level"]) if r["category_level"] is not None else 1,
                     "category_path": r["category_path"] or "",
                     "reason": r["reason"] or "",
                     "last_refreshed_at": str(r["last_refreshed_at"]) if r["last_refreshed_at"] else ""
@@ -436,15 +436,15 @@ def get_unmapped_products():
             data = []
             for r in rows:
                 data.append({
-                    "id": r["id"],
-                    "product_id": r["product_id"],
+                    "id": int(r["id"]),
+                    "product_id": int(r["product_id"]) if r["product_id"] is not None else None,
                     "marketplace_name": r["marketplace_name"] or "",
                     "asin": r["asin"] or "",
                     "product_name": r["product_name"] or "",
                     "brand": r["brand"] or "",
                     "category_name": r["category_name"] or "",
                     "sub_category_name": r["sub_category_name"] or "",
-                    "price": float(r["price"]) if r["price"] else None,
+                    "price": float(r["price"]) if r["price"] is not None else None,
                     "product_url": r["product_url"] or "",
                     "reason": r["reason"] or "",
                     "last_refreshed_at": str(r["last_refreshed_at"]) if r["last_refreshed_at"] else ""
@@ -485,18 +485,18 @@ def get_product_by_asin(asin):
                 return jsonify({"status": "error", "message": f"Product with ASIN '{asin}' not found in amazon_products"}), 404
 
             product = {
-                "id":               row["id"],
+                "id":               int(row["id"]),
                 "asin":             row["asin"] or "",
                 "title":            row["title"] or "",
                 "imgUrl":           row["imgUrl"] or "",
                 "productUrl":       row["productUrl"] or "",
-                "stars":            float(row["stars"]) if row["stars"] else None,
-                "reviews":          row["reviews"] or 0,
-                "price":            float(row["price"]) if row["price"] else None,
-                "listPrice":        float(row["listPrice"]) if row["listPrice"] else None,
+                "stars":            float(row["stars"]) if row["stars"] is not None else None,
+                "reviews":          int(row["reviews"]) if row["reviews"] is not None else 0,
+                "price":            float(row["price"]) if row["price"] is not None else None,
+                "listPrice":        float(row["listPrice"]) if row["listPrice"] is not None else None,
                 "categoryName":     row["categoryName"] or "",
                 "isBestSeller":     bool(row["isBestSeller"]),
-                "boughtInLastMonth":row["boughtInLastMonth"] or 0,
+                "boughtInLastMonth":int(row["boughtInLastMonth"]) if row["boughtInLastMonth"] is not None else 0,
             }
 
         return jsonify({"status": "success", "data": product}), 200
@@ -552,20 +552,20 @@ def get_product_by_id(marketplace, product_id):
                 return jsonify({"status": "error", "message": f"Product with ID {product_id} for '{marketplace}' not found in product_master"}), 404
 
             product = {
-                "id":                  row["id"],
+                "id":                  int(row["id"]),
                 "marketplace_name":    row["marketplace_name"] or "",
                 "asin":                row["asin"] or "",
                 "title":               row["product_name"] or "",
                 "brand":               row["brand"] or "",
-                "price":               float(row["price"]) if row["price"] else None,
-                "listPrice":           float(row["list_price"]) if row["list_price"] else None,
+                "price":               float(row["price"]) if row["price"] is not None else None,
+                "listPrice":           float(row["list_price"]) if row["list_price"] is not None else None,
                 "discount":            row["discount"] or "",
-                "stars":               float(row["stars"]) if row["stars"] else None,
-                "reviews":             row["reviews"] or 0,
-                "rating_count":        row["rating_count"] or 0,
+                "stars":               float(row["stars"]) if row["stars"] is not None else None,
+                "reviews":             int(row["reviews"]) if row["reviews"] is not None else 0,
+                "rating_count":        int(row["rating_count"]) if row["rating_count"] is not None else 0,
                 "is_prime":            bool(row["is_prime"]),
                 "isBestSeller":        bool(row["is_best_seller"]),
-                "boughtInLastMonth":   row["bought_in_last_month"] or 0,
+                "boughtInLastMonth":   int(row["bought_in_last_month"]) if row["bought_in_last_month"] is not None else 0,
                 "delivery_message":    row["delivery_message"] or "",
                 "availability":        row["availability"] or "",
                 "deal_type":           row["deal_type"] or "",
@@ -579,7 +579,7 @@ def get_product_by_id(marketplace, product_id):
                 "sub_category_name":   row["sub_category_name"] or "",
                 "imgUrl":              row["img_url"] or "",
                 "productUrl":          row["product_url"] or "",
-                "product_category_id": row["product_category_id"],
+                "product_category_id": int(row["product_category_id"]) if row["product_category_id"] is not None else None,
                 "created_at":          str(row["created_at"]) if row["created_at"] else "",
                 "updated_at":          str(row["updated_at"]) if row["updated_at"] else ""
             }
